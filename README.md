@@ -1,73 +1,62 @@
-# React + TypeScript + Vite
+Art Institute Explorer
+A React + TypeScript app that lets users search the Art Institute of Chicago's collection, save favorite artworks to a personal gallery, and add notes to each piece.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+✨ Features
+🔍 Search artworks from the Art Institute of Chicago API
 
-Currently, two official plugins are available:
+🖼️ Browse results with thumbnail cards (title, artist, ID, image)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+💾 Save favorites to localStorage gallery
 
-## React Compiler
+📝 Add notes to saved artworks
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+🗑️ Delete items from gallery
 
-## Expanding the ESLint configuration
+🎨 Responsive Tailwind CSS design
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+✅ Type-safe TypeScript throughout
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+🛠️ Tech Stack
+React 19 + Vite (TypeScript)
+Tailwind CSS
+Art Institute of Chicago API
+localStorage persistence
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+🚀 Quick Start
+Clone repo
+cd art-explorer
+npm install
+npm run dev
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+📁 Project Structure
+text
+src/
+├── api/           # API helpers (artworks.ts)
+├── components/    # Reusable UI (SearchBar.tsx, ArtworkCard.tsx)
+├── types/         # TypeScript interfaces (artwork.ts)
+├── App.tsx        # Main app layout
+└── index.css      # Tailwind imports
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+🎯 Functional Requirements
+ID	Feature	Status
+FR001	React + Vite (TS) setup	✅
+FR002	Core Dependencies Zod and Tailwindcss ✅
+FR003   Artwork Zod Schema ⏳
+FR004	API Fetch + Validation ✅⏳
+FR005	Search interface ✅
+FR006	ArtworkCard component ✅
+FR007-012	Gallery CRUD + notes ⏳ Next
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+
+🔗 API Documentation
+Art Institute Chicago API: https://api.artic.edu/docs/
+Search endpoint: /api/v1/artworks/search?q={query}&fields=id,title,artist_title,image_id
+Image URLs: https://www.artic.edu/iiif/2/{image_id}/full/{size}/default.jpg
+
+🧪 Testing
+Search for "monet", "picasso", or "van gogh" to see results!
+
+🙌 Acknowledgments
+Art Institute of Chicago API
+Built during [WBS Coding Bootcamp] - Jan 2026
