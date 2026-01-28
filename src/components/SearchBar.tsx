@@ -8,9 +8,13 @@ interface SearchBarProps {
 export function SearchBar({ onSearch, loading }: SearchBarProps) {
   const [query, setQuery] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSearch(query);
+
+    const trimmedQuery = query.trim();
+    if (!trimmedQuery) return;
+
+    onSearch(trimmedQuery);
   };
 
   return (

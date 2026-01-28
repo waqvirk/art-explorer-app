@@ -1,10 +1,11 @@
-import type { Artwork } from '../types/artwork';
+import { z } from 'zod';
+import { ArtworkSchema, type Artwork } from '../schemas/artwork.schema';
 
 const API_URL = 'https://api.artic.edu/api/v1/artworks';
 
-interface ArtworksResponse {
-  data: Artwork[];
-}
+const ArtworksResponseSchema = z.object({
+    data: z.array(ArtworkSchema),
+})
 
 export async function fetchArtworks(query: string): Promise<Artwork[]> {
     if (!query.trim()) return [];
@@ -17,6 +18,14 @@ export async function fetchArtworks(query: string): Promise<Artwork[]> {
         throw new Error(`Request failed with status ${response.status}`);
     }
 
-    const json: ArtworksResponse = await response.json();
-    return json.data ?? [];
+    const json = await response.json();
+
+    const parsed = ArtworksResponseSchema.safeParse(json);
+
+    if (!parsed.success) {
+        console.error('Invalid API response:', parsed.error);
+        throw new Error('Invalid data from Art Institute API');
+    }
+
+    return parsed.data.data;
 }
