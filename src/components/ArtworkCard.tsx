@@ -1,11 +1,13 @@
-import type { Artwork } from "../types/artwork";
+import type { Artwork } from "../schemas/artwork.schema";
 
 interface ArtworkCardProps {
   artwork: Artwork;
-  onAddToGallery?: () => void;
+  onAdd?: () => void;
+  onRemove?: () => void;
+  isGallery?: boolean;
 }
 
-export function ArtworkCard({ artwork, onAddToGallery }: ArtworkCardProps) {
+export default function ArtworkCard({ artwork, onAdd, onRemove, isGallery }: ArtworkCardProps) {
   const { id, title, artist_title, image_id } = artwork;
 
   const thumbnailUrl = image_id
@@ -33,11 +35,14 @@ export function ArtworkCard({ artwork, onAddToGallery }: ArtworkCardProps) {
           {artist_title || "Unknown artist"}
         </p>
 
-        {onAddToGallery && (
+        {isGallery ? (
+          <button onClick={onRemove} className="mt-2 inline-flex w-fit items-center rounded-md bg-slate-900 px-3 py-1 text-xs font-medium text-white hover:bg-red-600">
+            Remove from Gallery
+          </button>
+        ) : (
           <button
-            type="button"
-            onClick={onAddToGallery}
-            className="mt-2 inline-flex w-fit items-center rounded-md bg-slate-900 px-3 py-1 text-xs font-medium text-white hover:bg-slate-800"
+            onClick={onAdd}
+            className="mt-2 inline-flex w-fit items-center rounded-md bg-slate-900 px-3 py-1 text-xs font-medium text-white hover:bg-green-600"
           >
             Add to Gallery
           </button>

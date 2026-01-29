@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { fetchArtworks } from "./api/artworks";
-import type { Artwork } from "./types/artwork";
+import type { Artwork } from "./schemas/artwork.schema";
 import { SearchBar } from "./components/SearchBar";
-import { ArtworkCard } from "./components/ArtworkCard";
+import ArtworkCard from "./components/ArtworkCard";
+import Gallery from "./components/Gallery";
 
 export default function App() {
   const [results, setResults] = useState<Artwork[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const addToGalleryRef = useRef<(art: Artwork) => void>(() => {});
 
   const handleSearch = async (query: string) => {
     try {
@@ -29,9 +31,13 @@ export default function App() {
         <div className="mx-auto max-w-5xl px-4 py-3">
           
           <div className="flex items-center justify-between gap-4">
-            <h1 className="text-lg font-semibold text-slate-900">
+            <h1
+              onClick={() => window.location.reload()}
+              className="cursor-pointer text-lg font-semibold text-slate-900 hover:opacity-80"
+            >
               Art Institute Explorer
             </h1>
+
             <div className="w-full max-w-md">
               <SearchBar onSearch={handleSearch} loading={loading} />
             </div>
@@ -39,23 +45,32 @@ export default function App() {
 
         </div>
       </header>
-
+      
       <main className="mx-auto max-w-5xl px-4 py-6">
         {error && (
           <p className="mt-4 text-sm text-red-600">{error}</p>
         )}
 
-        <section className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {results.map((art) => (
-            <ArtworkCard
-              key={art.id}
-              artwork={art}
-              onAddToGallery={() => console.log("Add to gallery", art.id)}
-            />
-          ))}
-        </section>
+        {results.length > 0 && (
+          <>
+            <h2 className="mb-4 text-lg font-semibold">
+              Search Results
+            </h2>
+
+            <section className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {results.map((art) => (
+                <ArtworkCard
+                  key={art.id}
+                  artwork={art}
+                  onAdd={() => addToGalleryRef.current?.(art)}
+                />
+              ))}
+            </section>
+          </>
+        )}
+
+        <Gallery onAddRequest={(fn) => (addToGalleryRef.current = fn)} />
 
       </main>
-
     </div>
     )}
